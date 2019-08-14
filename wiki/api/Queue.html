@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Queue.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#queue">Queue</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="queue"><strong>Queue</strong></h2>
+<p>Содержит 4 метода для работы с очередью</p>
+<ul>
+<li>
+<p><strong>URL</strong></p>
+<p>/api/queue</p>
+</li>
+<li>
+<p><strong>Method:</strong></p>
+<p><code>POST</code> - создание очереди</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>access_token=[string]</code></li>
+<li><code>queue_name=[string]</code></li>
+<li><code>fullname=[string]</code></li>
+</ul>
+<p><strong>Optional:</strong></p>
+<ul>
+<li><code>generation=[string]</code> - тип гереации при автогенерации очередей
+<ul>
+<li><code>one_week</code> - генерировать каждую неделю</li>
+<li><code>two_week</code> - генерировать каждые две недели</li>
+<li>Если не указывать, то очерелдь не будет генерироваться сама</li>
+</ul>
+</li>
+<li><code>password=[string]</code> - указывается при создании закрытой очереди
+<ul>
+<li>Если не указать, то очередь будет открытой</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<pre><code>  POST .../api/queue?fullname=kek&amp;queue_name=lol&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=
+</code></pre>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>Method:</strong></p>
+<p><code>PUT</code> - присоединение к очереди</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>access_token=[string]</code></li>
+<li><code>queue_name=[string]</code></li>
+</ul>
+<p><strong>Optional:</strong></p>
+<ul>
+<li><code>password=[string]</code> - указывается, если очередь закрытая</li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<pre><code>  PUT .../api/queue?queue_name=lol&amp;password=123&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=
+</code></pre>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>Method:</strong></p>
+<p><code>GET</code> - создание очереди</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>queue_name=[string]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"creation_date"</span><span class="token punctuation">:</span><span class="token string">"2019-08-06T05:45:50.318Z[UTC]"</span><span class="token punctuation">,</span>
+  <span class="token string">"formattedDate"</span><span class="token punctuation">:</span><span class="token string">"Вт, 6 авг 14:45"</span><span class="token punctuation">,</span>
+  <span class="token string">"fullname"</span><span class="token punctuation">:</span><span class="token string">"Test%20Queue"</span><span class="token punctuation">,</span>
+  <span class="token string">"members"</span><span class="token punctuation">:</span>
+    <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">"contactDetails"</span><span class="token punctuation">:</span>
+            <span class="token punctuation">{</span> <span class="token string">"email"</span><span class="token punctuation">:</span><span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
+              <span class="token string">"vkontakteId"</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">"firstName"</span><span class="token punctuation">:</span><span class="token string">"Arthur"</span><span class="token punctuation">,</span>
+        <span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1398</span><span class="token punctuation">,</span>
+        <span class="token string">"lastName"</span><span class="token punctuation">:</span><span class="token string">"Kupriyanov"</span><span class="token punctuation">,</span>
+        <span class="token string">"user_type"</span><span class="token punctuation">:</span><span class="token string">"STUDENT"</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"123"</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">"contactDetails"</span><span class="token punctuation">:</span>
+          <span class="token punctuation">{</span> <span class="token string">"email"</span><span class="token punctuation">:</span><span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
+            <span class="token string">"vkontakteId"</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">"firstName"</span><span class="token punctuation">:</span><span class="token string">"Artem"</span><span class="token punctuation">,</span>
+        <span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1402</span><span class="token punctuation">,</span>
+        <span class="token string">"lastName"</span><span class="token punctuation">:</span><span class="token string">"Kolokolov"</span><span class="token punctuation">,</span>
+        <span class="token string">"user_type"</span><span class="token punctuation">:</span><span class="token string">"STUDENT"</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"ifelseelif"</span><span class="token punctuation">}</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">"name"</span><span class="token punctuation">:</span><span class="token string">"testQue"</span><span class="token punctuation">,</span>
+  <span class="token string">"queue_sequence"</span><span class="token punctuation">:</span><span class="token punctuation">[</span><span class="token number">1398</span><span class="token punctuation">,</span><span class="token number">1402</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">"super_users"</span><span class="token punctuation">:</span>
+    <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token string">"contactDetails"</span><span class="token punctuation">:</span>
+          <span class="token punctuation">{</span> <span class="token string">"email"</span><span class="token punctuation">:</span><span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
+            <span class="token string">"vkontakteId"</span><span class="token punctuation">:</span><span class="token number">0</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+        <span class="token string">"firstName"</span><span class="token punctuation">:</span><span class="token string">"Arthur"</span><span class="token punctuation">,</span>
+        <span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">1407</span><span class="token punctuation">,</span>
+        <span class="token string">"lastName"</span><span class="token punctuation">:</span><span class="token string">"Kupriyanov"</span><span class="token punctuation">,</span>
+        <span class="token string">"user_type"</span><span class="token punctuation">:</span><span class="token string">"STUDENT"</span><span class="token punctuation">,</span>
+        <span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"123"</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<pre><code>  POST .../api/queue?queue_name=lol&amp;password=123&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=
+</code></pre>
+</li>
+</ul>
+
+    </div>
+  </div>
+</body>
+
+</html>
