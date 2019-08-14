@@ -17,12 +17,14 @@
 <li><a href="Queue.html">…/queue</a> - создание\удаление\присоединение к очереди</li>
 <li><a href="QueueControl.html">…/queue/{queue_name}</a> - управление очередью</li>
 <li><a href="Register.html">…/register</a> - регистрация</li>
-<li><a href="User.html">…/User</a> - данные о пользователе</li>
+<li><a href="User.html">…/user</a> - данные о пользователе</li>
 </ul>
-<p><br><br><br></p>
-<blockquote>
-<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
-</blockquote>
+<h2 id="основные-положения">Основные положения</h2>
+<p>Для обращения к API Helios нужно использовать хост <code>https://helios-service.herokuapp.com</code> по пути <code>/api</code>:</p>
+<pre><code>https://helios-service.herokuapp.com/api/METHOD_NAME
+</code></pre>
+<h2 id="oauth">OAuth</h2>
+<p>Сейчас используется не полная модель OAuth 2.0. С помощью метода <a href="Auth.html">auth</a> необходимо получить <code>access_token</code> и <code>refresh_token</code>. Для этого необходимо отправить запрос вместе с логином и паролем пользователя.</p>
 </div>
 </body>
 
