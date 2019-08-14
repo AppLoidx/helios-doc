@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#user">User</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="user"><strong>User</strong></h2>
+<p>Получение данных о пользователе. Возвращает сущности <a href="../../../src/main/java/com/apploidxxx/entity/User.java">User</a> и<br>
+<a href="../../../src/main/java/com/apploidxxx/entity/ContactDetails.java">ContactDetails</a></p>
+<ul>
+<li>
+<p><strong>URL</strong></p>
+<p>/api/user</p>
+</li>
+<li>
+<p><strong>Method:</strong></p>
+<p>GET</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>access_token=[string]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"queues"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token string">"user"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token string">"contact_details"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
+      <span class="token string">"vkontakteId"</span><span class="token punctuation">:</span> <span class="token number">0</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token string">"first_name"</span><span class="token punctuation">:</span> <span class="token string">"Arthur"</span><span class="token punctuation">,</span>
+    <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">62</span><span class="token punctuation">,</span>
+    <span class="token string">"last_name"</span><span class="token punctuation">:</span> <span class="token string">"Kupriyanov"</span><span class="token punctuation">,</span>
+    <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"Arthur2"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"invalid_token"</span><span class="token punctuation">,</span>
+  <span class="token string">"error_description"</span><span class="token punctuation">:</span> <span class="token string">"Your token is invalid. Take authorization and refresh tokens"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>GET .../api/user?access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=</code></p>
+</li>
+<li>
+<p><strong>Note</strong></p>
+<ul>
+<li>Update request to request with response having queue list <br><code>[23.07.2019]</code></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</body>
+
+</html>
