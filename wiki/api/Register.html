@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#register">Register</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="register"><strong>Register</strong></h2>
+<p>Получение access_token и refresh_token с помощью логина и пароля</p>
+<ul>
+<li>
+<p><strong>URL</strong></p>
+<p>/api/register</p>
+</li>
+<li>
+<p><strong>Method:</strong></p>
+<p>POST</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>login=[string]</code></li>
+<li><code>password=[string]</code></li>
+<li><code>first_name=[string]</code></li>
+<li><code>last_name=[string]</code></li>
+<li><code>email=[string]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"error"</span> <span class="token punctuation">:</span> <span class="token string">"invalid_username"</span><span class="token punctuation">,</span>
+  <span class="token string">"error_description"</span> <span class="token punctuation">:</span> <span class="token string">"This username already is taken"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>POST .../api/register?username=Arthur3&amp;password=123&amp;firstName=Arthur&amp;lastName=Kupriyanov&amp;email=apploidyakutsk@gmail.com</code></p>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p><strong>Method:</strong></p>
+<p>DELETE<br>
+<br>Удаление пользователя</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>login=[string]</code></li>
+<li><code>password=[string]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json">    <span class="token punctuation">{</span>
+      <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"invalid_credentials"</span><span class="token punctuation">,</span>
+      <span class="token string">"error_description"</span><span class="token punctuation">:</span> <span class="token string">"invalid username or password"</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>POST .../api/register?username=Arthur3&amp;password=123</code></p>
+</li>
+<li>
+<p><strong>Note</strong></p>
+<ul>
+<li><strong>DELETE</strong> method maybe can move to another resource <code>[29.07.19]</code></li>
+<li>Password verification will be added soon <code>[29.07.19]</code></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+</body>
+
+</html>
