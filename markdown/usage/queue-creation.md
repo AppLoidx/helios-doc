@@ -43,4 +43,4 @@
 
 Важно заметить, что если эта очередь имеет генерацию, то критерий останется таким же, как и приоритеты настроенных вручную участников.
 
-<h5 align=center><a href="helios-doc/wiki/usage">Назад</a> | <a href="helios-doc/usage">На главную</a></h5>
+<h5 align=center><a href="/">Назад</a> | <a href="helios-doc/wiki">На главную</a></h5>
