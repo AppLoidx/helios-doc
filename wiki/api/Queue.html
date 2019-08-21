@@ -201,6 +201,56 @@
 </code></pre>
 </li>
 </ul>
+<hr>
+<ul>
+<li>
+<p><strong>Method:</strong></p>
+<p><code>DELETE</code> - удаление очереди или его участника</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>queue_name=[string]</code></li>
+<li><code>target=[string]</code>
+<ul>
+<li>QUEUE - удаление очереди</li>
+<li>USER - удаление пользователя</li>
+</ul>
+</li>
+<li><code>access_token=[string]</code></li>
+</ul>
+<p><strong>Optional:</strong></p>
+<ul>
+<li><code>username=[string]</code> - имя удаляемого пользователя
+<ul>
+<li>Обязателен, если <code>target</code> указан как USER</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+</li>
+</ul>
+<pre><code>   DELETE .../api/queue?queue_name=lol&amp;target=QUEUE&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=
+</code></pre>
+<pre><code>   DELETE .../api/queue?queue_name=lol&amp;target=USER&amp;username=ifelseelif&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=
+</code></pre>
 <h5 align="center"><a href="/">Назад</a> | <a href="helios-doc/wiki">На главную</a></h5>
 
     </div>
