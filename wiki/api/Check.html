@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#check">Check</a>
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="check"><strong>Check</strong></h2>
+<p>Используется для проверки данных: существующие очереди, занятые имена пользователей и тд.</p>
+<ul>
+<li>
+<p><strong>URL</strong></p>
+<p>/api/check</p>
+</li>
+<li>
+<p><strong>Method:</strong></p>
+<p>GET</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>check=[string]</code>
+<ul>
+<li>user_exist - существование пользователя</li>
+<li>queue_exist - существование очереди</li>
+<li>queue_match - поиск очередей по фрагменту</li>
+<li>queue_private - проверка приватности очереди</li>
+</ul>
+</li>
+</ul>
+<p><strong>Optional:</strong></p>
+<ul>
+<li><code>username=[string]</code> - используется в качестве параметра для методов check: <em>user</em>**_</li>
+<li><code>queue_name=[string]</code> - используется в качестве параметра для методов check: <em>queue</em>**_</li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"> <span class="token punctuation">{</span>
+     exist<span class="token punctuation">:</span> <span class="token boolean">true</span>
+ <span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+<span class="token punctuation">[</span><span class="token punctuation">[</span>shortName<span class="token punctuation">,</span> Queue fullname<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>anotherQueue<span class="token punctuation">,</span> Fullname<span class="token punctuation">]</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 Bad Request<br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>GET .../api/check?username=AppLoidx&amp;check=user_exist</code></p>
+</li>
+</ul>
+<h5 align="center"><a href="/">Назад</a> | <a href="helios-doc/wiki">На главную</a></h5>
+
+    </div>
+  </div>
+</body>
+
+</html>
