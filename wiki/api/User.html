@@ -33,8 +33,8 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <h2 id="user"><strong>User</strong></h2>
-<p>Получение данных о пользователе. Возвращает сущности <a href="../../../src/main/java/com/apploidxxx/entity/User.java">User</a> и<br>
-<a href="../../../src/main/java/com/apploidxxx/entity/ContactDetails.java">ContactDetails</a></p>
+<p>Получение данных о пользователе. Возвращает сущности <a href="https://github.com/AppLoidx/helios-rest-api/blob/master/src/main/java/com/apploidxxx/entity/User.java">User</a> и<br>
+<a href="https://github.com/AppLoidx/helios-rest-api/blob/master/src/main/java/com/apploidxxx/entity/ContactDetails.java">ContactDetails</a></p>
 <ul>
 <li>
 <p><strong>URL</strong></p>
@@ -56,19 +56,39 @@
 <ul>
 <li><strong>Code:</strong> 200 <br><br>
 <strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
-  <span class="token string">"queues"</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
-  <span class="token string">"user"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-    <span class="token string">"contact_details"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>
-      <span class="token string">"email"</span><span class="token punctuation">:</span> <span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
-      <span class="token string">"vkontakteId"</span><span class="token punctuation">:</span> <span class="token number">0</span>
-    <span class="token punctuation">}</span><span class="token punctuation">,</span>
-    <span class="token string">"first_name"</span><span class="token punctuation">:</span> <span class="token string">"Arthur"</span><span class="token punctuation">,</span>
-    <span class="token string">"id"</span><span class="token punctuation">:</span> <span class="token number">62</span><span class="token punctuation">,</span>
-    <span class="token string">"last_name"</span><span class="token punctuation">:</span> <span class="token string">"Kupriyanov"</span><span class="token punctuation">,</span>
-    <span class="token string">"username"</span><span class="token punctuation">:</span> <span class="token string">"Arthur2"</span>
-  <span class="token punctuation">}</span>
+<span class="token string">"queues"</span><span class="token punctuation">:</span><span class="token punctuation">[</span>
+			<span class="token punctuation">[</span><span class="token string">"queueShortName"</span><span class="token punctuation">,</span><span class="token string">"Queue Fullname"</span><span class="token punctuation">]</span>
+		 <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token string">"queues_member"</span><span class="token punctuation">:</span>
+		 <span class="token punctuation">[</span>
+			<span class="token punctuation">[</span><span class="token string">"queueShortName"</span><span class="token punctuation">,</span><span class="token string">"Queue Fullname"</span><span class="token punctuation">]</span>
+		 <span class="token punctuation">]</span><span class="token punctuation">,</span>
+<span class="token string">"user"</span><span class="token punctuation">:</span>
+	<span class="token punctuation">{</span>
+		<span class="token string">"contact_details"</span><span class="token punctuation">:</span>
+			<span class="token punctuation">{</span>
+				<span class="token string">"email"</span><span class="token punctuation">:</span><span class="token string">"apploidyakutsk@gmail.com"</span><span class="token punctuation">,</span>
+				<span class="token string">"vkontakteId"</span><span class="token punctuation">:</span><span class="token number">255396611</span>
+			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+		<span class="token string">"first_name"</span><span class="token punctuation">:</span><span class="token string">"Arthur"</span><span class="token punctuation">,</span>
+		<span class="token string">"groupName"</span><span class="token punctuation">:</span><span class="token string">"P3212"</span><span class="token punctuation">,</span>
+		<span class="token string">"id"</span><span class="token punctuation">:</span><span class="token number">4296</span><span class="token punctuation">,</span>
+		<span class="token string">"last_name"</span><span class="token punctuation">:</span><span class="token string">"Kupriyanov"</span><span class="token punctuation">,</span>
+		<span class="token string">"user_type"</span><span class="token punctuation">:</span><span class="token string">"STUDENT"</span><span class="token punctuation">,</span>
+		<span class="token string">"username"</span><span class="token punctuation">:</span><span class="token string">"myUsername"</span>
+	<span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 </code></pre>
+<ul>
+<li><strong>queues</strong> - все очереди участника (в которых он является участником и в тех которых он администратор)</li>
+<li><strong>queues_member</strong> - только те очереди, в которых пользователь находится как участник (это необходимое и достаточное условие)</li>
+<li><strong>user_type</strong> - тип участника:
+<ul>
+<li>STUDENT  - студент</li>
+<li>TEACHER - преподаватель</li>
+</ul>
+</li>
+</ul>
 </li>
 </ul>
 </li>
@@ -88,11 +108,53 @@
 <p><strong>Sample Call:</strong></p>
 <p><code>GET .../api/user?access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=</code></p>
 </li>
-<li>
-<p><strong>Note</strong></p>
-<ul>
-<li>Update request to request with response having queue list <br><code>[23.07.2019]</code></li>
 </ul>
+<hr>
+<ul>
+<li>
+<p><strong>Method:</strong></p>
+<p>PUT - изменение настроек профиля</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>access_token=[string]</code></li>
+<li><code>param=[string]</code> - имя изменяемого параметра
+<ul>
+<li>group - изменение имени группы</li>
+</ul>
+</li>
+<li><code>value</code> - новое значение параметра</li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 400 BAD_REQUEST <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"invalid_param"</span><span class="token punctuation">,</span>
+  <span class="token string">"error_description"</span><span class="token punctuation">:</span> <span class="token string">"This param name not found"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"invalid_param"</span><span class="token punctuation">,</span>
+  <span class="token string">"error_description"</span><span class="token punctuation">:</span> <span class="token string">"Invalid group name"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>PUT .../api/user?param=group&amp;value=P3112&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0MDM3NXNhbHQyNzY=</code></p>
 </li>
 </ul>
 <h5 align="center"><a href="/helios-doc/wiki/api">Назад</a> | <a href="helios-doc/wiki">На главную</a></h5>
