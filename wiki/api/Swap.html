@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swap.md</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li>
+<ul>
+<li><a href="#swap">Swap</a>
+<ul>
+<li>
+<ul>
+<li></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h2 id="swap"><strong>Swap</strong></h2>
+<p>Обмен мест. Если оба пользователя взаимно отправляют запрос на смену мест в очереди, то они меняются местами в очереди, при этом следует учитывать, что люди с разными приоритетами - не могут меняться в очереди местами.</p>
+<ul>
+<li>
+<p><strong>URL</strong></p>
+<p>/api/swap</p>
+</li>
+<li>
+<p><strong>Method:</strong></p>
+<p>POST</p>
+</li>
+<li>
+<p><strong>URL Params</strong></p>
+<p><strong>Required:</strong></p>
+<ul>
+<li><code>access_token=[string]</code></li>
+<li><code>target=[string]</code> - имя пользователя (цели)</li>
+<li><code>queue_name=[string]</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Success Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 200 <br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Error Response:</strong></p>
+<ul>
+<li><strong>Code:</strong> 404 Not Found <br><br>
+<strong>Content:</strong><pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+  <span class="token string">"error"</span><span class="token punctuation">:</span> <span class="token string">"user_not_found"</span><span class="token punctuation">,</span>
+  <span class="token string">"error_description"</span><span class="token punctuation">:</span> <span class="token string">"User not found in requested queue"</span>
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
+<li><strong>Code:</strong> 400 Bad Request<br><br>
+<strong>Content:</strong> <code>&lt;Response body is empty&gt;</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Sample Call:</strong></p>
+<p><code>POST .../api/swap?queue_name=123&amp;target=2&amp;access_token=QXJ0aHVyMkt1cHJpeWFub3YtMTQ0NTU0</code></p>
+</li>
+<li>
+<p><strong>Note:</strong><br>
+Нужно обновить API так, чтобы люди с разными приоритетами не могли меняться.</p>
+</li>
+</ul>
+<h5 align="center"><a href="/helios-doc/wiki/api">Назад</a> | <a href="helios-doc/wiki">На главную</a></h5>
+
+    </div>
+  </div>
+</body>
+
+</html>
