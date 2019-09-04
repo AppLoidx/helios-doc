@@ -2,6 +2,8 @@
 
 При создании очереди есть несколько возможностей изменить её по свои нужды
 
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-1.png?raw=true" /></h3>
+
 ## Типы очередей
 ### Приватная очередь
 Приватная очередь представляет собой очередь, в которую можно войти с помощью пароля или инвайт ссылки.
@@ -10,8 +12,12 @@
 
 При попытке присоединиться к этой очереди - сервер запросит пароль.
 
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-2.png?raw=true" /></h3>
+
 ### Очередь с генерацией
 Если вам нужно создать очередь, которая будет перемешивать своих участников в определенное время, то поставьте галочку на пункте `Автогенерируемая`, тогда появится форма для её настройки.
+
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-3.png?raw=true" /></h3>
 
 ## Настройка очереди
 ### Перемешивание
