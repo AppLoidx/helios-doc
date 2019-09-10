@@ -53,13 +53,15 @@
 <li>queue_exist - существование очереди</li>
 <li>queue_match - поиск очередей по фрагменту</li>
 <li>queue_private - проверка приватности очереди</li>
+<li>email_exist - проверка зарегистрирован ли пользователь с такой почтой</li>
 </ul>
 </li>
 </ul>
 <p><strong>Optional:</strong></p>
 <ul>
-<li><code>username=[string]</code> - используется в качестве параметра для методов check: <em>user</em>**_</li>
-<li><code>queue_name=[string]</code> - используется в качестве параметра для методов check: <em>queue</em>**_</li>
+<li><code>username=[string]</code> - используется в качестве параметра для методов check: <em>user</em>_**</li>
+<li><code>queue_name=[string]</code> - используется в качестве параметра для методов check: <em>queue</em>_**</li>
+<li><code>email=[string]</code> - используется в качестве параметра для методов: <em>email</em>_**</li>
 </ul>
 </li>
 <li>
@@ -70,9 +72,16 @@
      exist<span class="token punctuation">:</span> <span class="token boolean">true</span>
  <span class="token punctuation">}</span>
 </code></pre>
-<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
-<span class="token punctuation">[</span><span class="token punctuation">[</span>shortName<span class="token punctuation">,</span> Queue fullname<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>anotherQueue<span class="token punctuation">,</span> Fullname<span class="token punctuation">]</span><span class="token punctuation">]</span>
-<span class="token punctuation">}</span>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">[</span>  
+   <span class="token punctuation">[</span>  
+   		<span class="token string">"shortName"</span><span class="token punctuation">,</span>  
+   		<span class="token string">"Queue fullname"</span>  
+   <span class="token punctuation">]</span><span class="token punctuation">,</span>  
+   <span class="token punctuation">[</span>  
+   		<span class="token string">"anotherQueue"</span><span class="token punctuation">,</span>  
+   		<span class="token string">"Fullname"</span>  
+   <span class="token punctuation">]</span>  
+<span class="token punctuation">]</span>
 </code></pre>
 </li>
 </ul>
