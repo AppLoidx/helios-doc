@@ -2,7 +2,8 @@
 
 При создании очереди есть несколько возможностей изменить её по свои нужды
 
-<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-1.png?raw=true" /></h3>
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-1.png?raw=true" 
+width=250/></h3>
 
 ## Типы очередей
 ### Приватная очередь
@@ -12,12 +13,12 @@
 
 При попытке присоединиться к этой очереди - сервер запросит пароль.
 
-<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-2.png?raw=true" /></h3>
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-2.png?raw=true" width=250/></h3>
 
 ### Очередь с генерацией
 Если вам нужно создать очередь, которая будет перемешивать своих участников в определенное время, то поставьте галочку на пункте `Автогенерируемая`, тогда появится форма для её настройки.
 
-<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-3.png?raw=true" /></h3>
+<h3 align=center><img src="https://github.com/AppLoidx/helios-doc/blob/master/wiki/usage/res/img/level-3.png?raw=true" width=250/></h3>
 
 ## Настройка очереди
 ### Перемешивание
@@ -49,4 +50,4 @@
 
 Важно заметить, что если эта очередь имеет генерацию, то критерий останется таким же, как и приоритеты настроенных вручную участников.
 
-<h5 align=center> | <a href="helios-doc/">На главную</a> |</h5>
+<h5 align=center> | <a href="/helios-doc/wiki/usage/">На главную</a> |</h5>
