@@ -22,12 +22,8 @@
 <li></li>
 </ul>
 </li>
-<li><a href="#apimodel">api/model</a>
-<ul>
-<li></li>
+<li><a href="#apimodel">api/model</a></li>
 <li><a href="#apiutil">api/util</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -126,11 +122,11 @@
 </code></pre>
 <h2 id="apimodel">api/model</h2>
 <p>Здесь представлены POJO объекты, которые по назначению должны сериализовываться в json. Все имена полей я буду приводить как они написаны в самом коде (то есть в верблюжем стиле), но все они при сериализации меняют свой проперти на стиль json, то есть <code>this_is_my_value</code></p>
-<h4 id="errormessage">ErrorMessage</h4>
+<h3 id="errormessage">ErrorMessage</h3>
 <p>Объект являющийся стандартным для отправки ответа запросам, которые вызывали ошибку или были некорректны. Содержит поля <code>error</code> и <code>errorDescription</code></p>
-<h4 id="check">Check</h4>
+<h3 id="check">Check</h3>
 <p>Объект содержащий поле <code>exist</code>. Обычно используется для <code>CheckApi</code>, например, для проверки существования такого имени пользователя или очереди.</p>
-<h4 id="userinfo">UserInfo</h4>
+<h3 id="userinfo">UserInfo</h3>
 <p>Класс-враппер для сущности User. Вот его поля:</p>
 <pre class=" language-java"><code class="prism  language-java"><span class="token keyword">private</span> User user<span class="token punctuation">;</span>  
 <span class="token keyword">private</span> List<span class="token operator">&lt;</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> queues<span class="token punctuation">;</span> 
@@ -142,12 +138,78 @@
 <span class="token keyword">private</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">&gt;&gt;</span> swapRequests<span class="token punctuation">;</span>
 </code></pre>
 <ul>
-<li><strong>queue</strong> - коллекция из массива очередей, содержащих два значения - короткое имя (ссылка) и полное имя очереди. Например, <code>{["shortLink","My Queue Fullname" ]}</code></li>
+<li><strong>queues</strong> - коллекция из массива очередей, содержащих два значения - короткое имя (ссылка) и полное имя очереди. Например, <code>{["shortLink","My Queue Fullname" ]}</code>. Этот список содержит очереди, в которых пользователь находится как участник или администратор.</li>
+<li><strong>queuesMember</strong> - такой же список как <code>queues</code>, но содержит очереди, в которых пользователь является лишь участником (не входят очереди, в которых он администратор)</li>
 <li><strong>user</strong> - данные о пользователе, кроме приватных данных, как например, пароль</li>
+<li><strong>swapRequests</strong> - список мапов описывающих заявки на обмен местами (пока только исходящих). Метод добавляющий значение в <code>swapRequest</code>:<br><br>
+<em>Листинг 2.1 UserInfo</em><pre class=" language-java"><code class="prism  language-java"><span class="token keyword">private</span> <span class="token keyword">void</span> <span class="token function">addSwapRequest</span><span class="token punctuation">(</span>Queue queue<span class="token punctuation">,</span> User user<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+  SwapContainer sc <span class="token operator">=</span> queue<span class="token punctuation">.</span><span class="token function">getSwapContainer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  User target <span class="token operator">=</span> sc<span class="token punctuation">.</span><span class="token function">getSwapRequest</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>target <span class="token operator">!=</span> null<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+          Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">&gt;</span> hashMap <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"queue_name"</span><span class="token punctuation">,</span> queue<span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"queue_fullname"</span><span class="token punctuation">,</span> queue<span class="token punctuation">.</span><span class="token function">getFullname</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"target_username"</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span><span class="token function">getUsername</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"target_firstname"</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span><span class="token function">getFirstName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  hashMap<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span><span class="token string">"target_lastname"</span><span class="token punctuation">,</span> target<span class="token punctuation">.</span><span class="token function">getLastName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		  swapRequests<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>hashMap<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+</li>
 </ul>
-<h3 id="apiutil">api/util</h3>
-<h4 id="errorresponsefactory">ErrorResponseFactory</h4>
-<p>Реализация паттерна</p>
+<h2 id="apiutil">api/util</h2>
+<h3 id="errorresponsefactory">ErrorResponseFactory</h3>
+<p>Реализация паттерна фабрики - имеет статические методы возвращающие объекты <code>Response</code> с тем или иным кодом ошибки и как говорилось ранее, объектом <code>ErrorMessage</code> в качестве ответа пользователю:</p>
+<p><em>Листинг 2.2 ErrorResponseFactory</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">ErrorResponseFactory</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Response <span class="token function">getInvalidParamErrorResponse</span><span class="token punctuation">(</span>String description<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> Response  
+                <span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>Response<span class="token punctuation">.</span>Status<span class="token punctuation">.</span>BAD_REQUEST<span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">entity</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ErrorMessage</span><span class="token punctuation">(</span><span class="token string">"invalid_param"</span><span class="token punctuation">,</span> description<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Response <span class="token function">getForbiddenErrorResponse</span><span class="token punctuation">(</span>String description<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> Response  
+                <span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>Response<span class="token punctuation">.</span>Status<span class="token punctuation">.</span>FORBIDDEN<span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">entity</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ErrorMessage</span><span class="token punctuation">(</span><span class="token string">"insufficient_rights"</span><span class="token punctuation">,</span> description<span class="token punctuation">)</span><span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">public</span> <span class="token keyword">static</span> Response <span class="token function">getForbiddenErrorResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> <span class="token function">getForbiddenErrorResponse</span><span class="token punctuation">(</span><span class="token string">"You don't have enough rights"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="password">Password</h3>
+<p>Класс для проверки и валидации паролей. Использует MD5 хэширование. Имеет два публичных метода:</p>
+<p><em>Листинг 2.3 Password</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> String <span class="token function">hash</span><span class="token punctuation">(</span>String password<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> Md5Crypt<span class="token punctuation">.</span><span class="token function">md5Crypt</span><span class="token punctuation">(</span><span class="token punctuation">(</span>password <span class="token operator">+</span> salt<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getBytes</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">boolean</span> <span class="token function">isEqual</span><span class="token punctuation">(</span>String rawPassword<span class="token punctuation">,</span> String hashedPassword<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+    <span class="token keyword">return</span> hashedPassword<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token function">hash</span><span class="token punctuation">(</span>rawPassword<span class="token punctuation">,</span> hashedPassword<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Собственно, <code>hash</code> хэширует пароль для хранения в БД, а <code>isEqual</code> проверяет совпадение паролей.</p>
+<h3 id="queuemanager-usermanager-usersessionmanager">QueueManager, UserManager, UserSessionManager</h3>
+<p>Это обертки над <code>QueueService</code> и <code>UserService</code>, которые работают с сущностями БД. Они имеют методы, которые могут выкидывать специфичные исключение, как например, <code>InvalidQueueException</code> или <code>UserNotFoundException</code>.</p>
+<p><em>Листинг 2.4 QueueManager</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">QueueManager</span> <span class="token punctuation">{</span>  
+  <span class="token keyword">public</span>  <span class="token keyword">static</span> Queue <span class="token function">getQueue</span><span class="token punctuation">(</span>String queueName<span class="token punctuation">)</span> <span class="token keyword">throws</span> InvalidQueueException <span class="token punctuation">{</span>  
+      Queue q <span class="token operator">=</span> QueueService<span class="token punctuation">.</span><span class="token function">findQueue</span><span class="token punctuation">(</span>queueName<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  <span class="token keyword">if</span> <span class="token punctuation">(</span>q <span class="token operator">==</span> null<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+	      <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">InvalidQueueException</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>  
+	      <span class="token keyword">return</span> q<span class="token punctuation">;</span>  
+	  <span class="token punctuation">}</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="vulnerabilitychecker">VulnerabilityChecker</h3>
+<p>Проверяет строковые данные на уязвимости и наличие опасных значений, таких как <code>&lt;script&gt;</code>. Имеет один метод <code>checkWord</code>, который в случае опасности выбрасывает исключение <code>VulnerabilityException</code>.</p>
 
     </div>
   </div>
