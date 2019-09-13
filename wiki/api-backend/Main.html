@@ -37,8 +37,7 @@
 <ul>
 <li><code>external</code> - формы для авторизации\регистрации через OAuth</li>
 </ul>
-<h2 id="code">Code</h2>
-<h3 id="apiexceptions">api/exceptions</h3>
+<h2 id="apiexceptions">api/exceptions</h2>
 <h4 id="iresponsibleexceptionimpl">IResponsibleExceptionImpl</h4>
 <ul>
 <li>Интерфейс для всех исключений выбрасываемых в работе с API и которые могут генерировать <code>Response</code> для отправки клиенту.</li>
@@ -92,7 +91,7 @@
   <span class="token punctuation">}</span>  
 <span class="token punctuation">}</span>
 </code></pre>
-<h3 id="apimodel">api/model</h3>
+<h2 id="apimodel">api/model</h2>
 <p>Здесь представлены POJO объекты, которые по назначению должны сериализовываться в json. Все имена полей я буду приводить как они написаны в самом коде (то есть в верблюжем стиле), но все они при сериализации меняют свой проперти на стиль json, то есть <code>this_is_my_value</code></p>
 <h4 id="errormessage">ErrorMessage</h4>
 <p>Объект являющийся стандартным для отправки ответа запросам, которые вызывали ошибку или были некорректны. Содержит поля <code>error</code> и <code>errorDescription</code></p>
