@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REST-API</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#документация-к-api-helios">Документация к API Helios</a>
+<ul>
+<li><a href="#общие-сведения">Общие сведения</a></li>
+<li><a href="#иерархия-файлов">Иерархия файлов</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="документация-к-api-helios">Документация к API Helios</h1>
+<h2 id="общие-сведения">Общие сведения</h2>
+<h3 id="предназначение">Предназначение</h3>
+<p>Этот API должен быть доступным для пользования всеми разработчиками, в том числе для создания собственных сервисов, интеграции с социальными сетями и тому подобным. Также следовательно он должен иметь методы аутентификации и идентификации пользователей через протокол OAuth.</p>
+<p>Документацию по использованию API и примеры можно найти <a href="https://apploidx.github.io/helios-doc/">здесь</a></p>
+<h3 id="средства-разработки">Средства разработки</h3>
+<p>Реализован <strong>JAX-RS</strong> через <strong>Jersey</strong> и поднят на сервере <strong>GrizzlyHttpServer</strong> от Apache. Задеплоен в сервисе <a href="https://heroku.com">heroku</a></p>
+<p>Сборка производится через <strong>maven</strong> с системой автоматической сборки на <a href="https://travis-ci.org/AppLoidx/helios-rest-api">travis-ci</a></p>
+<h2 id="иерархия-файлов">Иерархия файлов</h2>
+<p><code>com.apploidxxx</code> :</p>
+<ul>
+<li><code>api</code> - классы и методы отвечающие за обработку запросов
+<ul>
+<li><code>exceptions</code> - пользовательские исключения</li>
+<li><code>filter</code> - фильтры запросов</li>
+<li><code>model</code> - POJO объекты</li>
+</ul>
+</li>
+<li><code>ds</code> - средства инициализации datasource (HibernateSession)</li>
+<li><code>entity</code> - хранимые объекты (persistence units)
+<ul>
+<li><code>dao</code> - расположение всех DAO и их сервисов</li>
+</ul>
+</li>
+</ul>
+<p><code>test</code>:</p>
+<ul>
+<li><code>api</code> - тесты по API (запросы через rest-assured)</li>
+<li><code>entity</code> - тесты по логике работы хранимых объектов</li>
+</ul>
+<p><code>resources/static</code>:</p>
+<ul>
+<li><code>external</code> - формы для авторизации\регистрации через OAuth</li>
+</ul>
+<h2 id="code">Code</h2>
+<h3 id="apiexceptions">api/exceptions</h3>
+<h4 id="iresponsibleexceptionimpl">IResponsibleExceptionImpl</h4>
+<ul>
+<li>Интерфейс для всех исключений выбрасываемых в работе с API и которые могут генерировать <code>Response</code> для отправки клиенту.</li>
+</ul>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">import</span> javax<span class="token punctuation">.</span>ws<span class="token punctuation">.</span>rs<span class="token punctuation">.</span>core<span class="token punctuation">.</span>Response<span class="token punctuation">;</span>
+<span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IResponsibleException</span> <span class="token punctuation">{</span>  
+  Response <span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  String <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  String <span class="token function">getErrorDescription</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<h4 id="responsibleexception">ResponsibleException</h4>
+<ul>
+<li>Прослойка между интерфейсом <code>IResponsibleException</code> и самими реализациями исключений, которая наследуется от <code>Exception</code> и является абстрактной:</li>
+</ul>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">abstract</span> <span class="token keyword">class</span> <span class="token class-name">ResponsibleException</span> <span class="token keyword">extends</span> <span class="token class-name">Exception</span> <span class="token keyword">implements</span> <span class="token class-name">IResponsibleException</span> <span class="token punctuation">{</span>  <span class="token punctuation">}</span>
+</code></pre>
+<p>Наследование исключения от этого класса (его реализация <code>IResponsibleException</code>) дает нам возможность использовать (вместе с <code>try/catch</code> конструкциями) такого вида упрощения обработки ошибок:</p>
+<p><em>Листинг 1.1 QueueApi</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> Response <span class="token function">getQueue</span><span class="token punctuation">(</span>   <span class="token annotation punctuation">@Valid</span><span class="token annotation punctuation">@NotNull</span><span class="token annotation punctuation">@QueryParam</span><span class="token punctuation">(</span><span class="token string">"queue_name"</span><span class="token punctuation">)</span> String queueName<span class="token punctuation">)</span><span class="token punctuation">{</span>  
+  
+  <span class="token keyword">try</span> <span class="token punctuation">{</span>  
+        Queue q <span class="token operator">=</span> QueueManager<span class="token punctuation">.</span><span class="token function">getQueue</span><span class="token punctuation">(</span>queueName<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+		<span class="token keyword">return</span> Response<span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InvalidQueueException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> e<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Таким образом, исключение умеет генерировать <code>Response</code>, который можно возвращать пользователю. Вот его реализация:</p>
+<p><em>Листинг 1.2 InvalidQueueException</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">InvalidQueueException</span> <span class="token keyword">extends</span> <span class="token class-name">ResponsibleException</span><span class="token punctuation">{</span>  
+  
+    <span class="token annotation punctuation">@Override</span>  
+  <span class="token keyword">public</span> Response <span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> Response  
+                <span class="token punctuation">.</span><span class="token function">status</span><span class="token punctuation">(</span>Response<span class="token punctuation">.</span>Status<span class="token punctuation">.</span>NOT_FOUND<span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">entity</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">ErrorMessage</span><span class="token punctuation">(</span><span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">getErrorDescription</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  
+                <span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token annotation punctuation">@Override</span>  
+  <span class="token keyword">public</span> String <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> <span class="token string">"invalid_queue"</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token annotation punctuation">@Override</span>  
+  <span class="token keyword">public</span> String <span class="token function">getErrorDescription</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">return</span> <span class="token string">"queue not found"</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<h3 id="apimodel">api/model</h3>
+<p>Здесь представлены POJO объекты, которые по назначению должны сериализовываться в json. Все имена полей я буду приводить как они написаны в самом коде (то есть в верблюжем стиле), но все они при сериализации меняют свой проперти на стиль json, то есть <code>this_is_my_value</code></p>
+<h4 id="errormessage">ErrorMessage</h4>
+<p>Объект являющийся стандартным для отправки ответа запросам, которые вызывали ошибку или были некорректны. Содержит поля <code>error</code> и <code>errorDescription</code></p>
+<h4 id="check">Check</h4>
+<p>Объект содержащий поле <code>exist</code>. Обычно используется для <code>CheckApi</code>, например, для проверки существования такого имени пользователя или очереди.</p>
+<h4 id="userinfo">UserInfo</h4>
+<p>Класс-враппер для сущности User. Вот его поля:</p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">private</span> User user<span class="token punctuation">;</span>  
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> queues<span class="token punctuation">;</span> 
+ 
+<span class="token annotation punctuation">@JsonProperty</span><span class="token punctuation">(</span><span class="token string">"queues_member"</span><span class="token punctuation">)</span>    
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token operator">&gt;</span> queuesMember<span class="token punctuation">;</span>  
+
+<span class="token annotation punctuation">@JsonProperty</span><span class="token punctuation">(</span><span class="token string">"swap_requests"</span><span class="token punctuation">)</span>  
+<span class="token keyword">private</span> List<span class="token operator">&lt;</span>Map<span class="token operator">&lt;</span>String<span class="token punctuation">,</span> String<span class="token operator">&gt;&gt;</span> swapRequests<span class="token punctuation">;</span>
+</code></pre>
+<ul>
+<li><strong>queue</strong> - коллекция из массива очередей, содержащих два значения - короткое имя (ссылка) и полное имя очереди. Например, <code>{["shortLink","My Queue Fullname" ]}</code></li>
+<li><strong>user</strong> - данные о пользователе, кроме приватных данных, как например, пароль</li>
+</ul>
+<h3 id="apiutil">api/util</h3>
+<h4 id="errorresponsefactory">ErrorResponseFactory</h4>
+<p>Реализация паттерна</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
