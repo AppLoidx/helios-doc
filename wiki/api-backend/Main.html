@@ -15,6 +15,7 @@
 <ul>
 <li><a href="#документация-к-api-helios">Документация к API Helios</a>
 <ul>
+<li><a href="#запуск">Запуск</a></li>
 <li><a href="#общие-сведения">Общие сведения</a></li>
 <li><a href="#иерархия-файлов">Иерархия файлов</a></li>
 <li><a href="#apiexceptions">api/exceptions</a>
@@ -24,6 +25,8 @@
 </li>
 <li><a href="#apimodel">api/model</a></li>
 <li><a href="#apiutil">api/util</a></li>
+<li><a href="#entitydao">entity/dao</a></li>
+<li><a href="#entity">entity</a></li>
 </ul>
 </li>
 </ul>
@@ -33,6 +36,11 @@
   <div class="stackedit__right">
     <div class="stackedit__html">
       <h1 id="документация-к-api-helios">Документация к API Helios</h1>
+<h2 id="запуск">Запуск</h2>
+<p>Перед запуском необходимо настроить <code>hiberante.cfg.xml</code></p>
+<pre><code>mvn install
+java -jar target/fileName.jar
+</code></pre>
 <h2 id="общие-сведения">Общие сведения</h2>
 <h3 id="предназначение">Предназначение</h3>
 <p>Этот API должен быть доступным для пользования всеми разработчиками, в том числе для создания собственных сервисов, интеграции с социальными сетями и тому подобным. Также следовательно он должен иметь методы аутентификации и идентификации пользователей через протокол OAuth.</p>
@@ -67,6 +75,7 @@
 <li><code>external</code> - формы для авторизации\регистрации через OAuth</li>
 </ul>
 <h2 id="apiexceptions">api/exceptions</h2>
+<p><img src="https://i.imgur.com/oGFyG4C.png" alt=""></p>
 <h4 id="iresponsibleexceptionimpl">IResponsibleExceptionImpl</h4>
 <ul>
 <li>Интерфейс для всех исключений выбрасываемых в работе с API и которые могут генерировать <code>Response</code> для отправки клиенту.</li>
@@ -210,7 +219,98 @@
 </code></pre>
 <h3 id="vulnerabilitychecker">VulnerabilityChecker</h3>
 <p>Проверяет строковые данные на уязвимости и наличие опасных значений, таких как <code>&lt;script&gt;</code>. Имеет один метод <code>checkWord</code>, который в случае опасности выбрасывает исключение <code>VulnerabilityException</code>.</p>
+<h2 id="entitydao">entity/dao</h2>
+<p>В этом пакете находятся DAO-объекты, при этом каждого такого объекта область видимости ограничивается лишь пакетом, а публичный доступ дается через сервисный класс (подробнее далее)</p>
+<h3 id="daobasicoperations">DAOBasicOperations</h3>
+<p>Класс который реализует простые операции с сущностями и БД, чтобы не писать много boilerplate-кода он был вынесен в отдельный класс и используется с обобщениями:</p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DAOBasicOperations</span><span class="token operator">&lt;</span>T<span class="token operator">&gt;</span> <span class="token punctuation">{</span>  
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span>T obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      Session session <span class="token operator">=</span> HibernateSessionFactoryUtil<span class="token punctuation">.</span><span class="token function">getSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  Transaction tx1 <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">beginTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  tx1<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span>T obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+      Session session <span class="token operator">=</span> HibernateSessionFactoryUtil<span class="token punctuation">.</span><span class="token function">getSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  Transaction tx1 <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">beginTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  tx1<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+  <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span>T obj<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	  Session session <span class="token operator">=</span> HibernateSessionFactoryUtil<span class="token punctuation">.</span><span class="token function">getSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  Transaction tx1 <span class="token operator">=</span> session<span class="token punctuation">.</span><span class="token function">beginTransaction</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>obj<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  tx1<span class="token punctuation">.</span><span class="token function">commit</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  session<span class="token punctuation">.</span><span class="token function">close</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	<span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Рассмотрим его использование на примере:</p>
+<p><em>Листинг 3.1 MessageDAO</em></p>
+<pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">MessageDAO</span> <span class="token punctuation">{</span>  
+      <span class="token keyword">private</span> DAOBasicOperations<span class="token operator">&lt;</span>Message<span class="token operator">&gt;</span> basicOperations <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">DAOBasicOperations</span><span class="token operator">&lt;</span><span class="token operator">&gt;</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  Message <span class="token function">findById</span><span class="token punctuation">(</span>Long id<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	        <span class="token keyword">return</span> HibernateSessionFactoryUtil<span class="token punctuation">.</span><span class="token function">getSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>Message<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span> id<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  <span class="token punctuation">}</span>  
+  
+	  <span class="token keyword">void</span> <span class="token function">save</span><span class="token punctuation">(</span>Message user<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	        basicOperations<span class="token punctuation">.</span><span class="token function">save</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">void</span> <span class="token function">update</span><span class="token punctuation">(</span>Message user<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	        basicOperations<span class="token punctuation">.</span><span class="token function">update</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+  
+    <span class="token keyword">void</span> <span class="token function">delete</span><span class="token punctuation">(</span>Message user<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+	        basicOperations<span class="token punctuation">.</span><span class="token function">delete</span><span class="token punctuation">(</span>user<span class="token punctuation">)</span><span class="token punctuation">;</span>  
+    <span class="token punctuation">}</span>  
+    List<span class="token operator">&lt;</span>Message<span class="token operator">&gt;</span> <span class="token function">findAll</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>  
+        <span class="token keyword">try</span> <span class="token punctuation">(</span>Session session <span class="token operator">=</span> HibernateSessionFactoryUtil<span class="token punctuation">.</span><span class="token function">getSessionFactory</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">openSession</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">{</span>  
+            <span class="token keyword">return</span> session<span class="token punctuation">.</span><span class="token function">createQuery</span><span class="token punctuation">(</span><span class="token string">"from Message"</span><span class="token punctuation">,</span> Message<span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">list</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	    <span class="token punctuation">}</span>  
+    <span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="entity">entity</h2>
 
+<table>
+<thead>
+<tr>
+<th>Сущность</th>
+<th>Назначение</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User</td>
+<td>Данные о пользователе</td>
+</tr>
+<tr>
+<td>ContactDetails</td>
+<td>Дополнительные данные о пользователе (email, vk id …)</td>
+</tr>
+<tr>
+<td>Chat</td>
+<td>Чат очереди (one-to-one <code>Queue</code>)</td>
+</tr>
+<tr>
+<td>Message</td>
+<td>Сообщение в чате (one-to-one <code>Chat</code>)</td>
+</tr>
+<tr>
+<td>Queue</td>
+<td>Информация об очереди</td>
+</tr>
+<tr>
+<td>Session</td>
+<td>Сессия с пользователем (accessToken, refreshToken)</td>
+</tr>
+</tbody>
+</table>
     </div>
   </div>
 </body>
