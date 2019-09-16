@@ -1,0 +1,17 @@
+com.apploidxxx
+com.apploidxxx.api
+com.apploidxxx.api.exceptions
+com.apploidxxx.api.filter
+com.apploidxxx.api.google
+com.apploidxxx.api.model
+com.apploidxxx.api.util
+com.apploidxxx.ds
+com.apploidxxx.entity
+com.apploidxxx.entity.dao
+com.apploidxxx.entity.dao.chat
+com.apploidxxx.entity.dao.note
+com.apploidxxx.entity.dao.oauth
+com.apploidxxx.entity.dao.queue
+com.apploidxxx.entity.dao.user
+com.apploidxxx.entity.note
+com.apploidxxx.entity.queue
