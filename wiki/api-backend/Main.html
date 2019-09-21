@@ -84,15 +84,15 @@ java -jar target/fileName.jar
 </ul>
 <h2 id="apiexceptions">api/exceptions</h2>
 <p><img src="https://i.imgur.com/oGFyG4C.png" alt=""></p>
-<h4 id="iresponsibleexceptionimpl">IResponsibleExceptionImpl</h4>
+<h4 id="iresponsibleexception">IResponsibleException</h4>
 <ul>
 <li>Интерфейс для всех исключений выбрасываемых в работе с API и которые могут генерировать <code>Response</code> для отправки клиенту.</li>
 </ul>
 <pre class=" language-java"><code class="prism  language-java"><span class="token keyword">import</span> javax<span class="token punctuation">.</span>ws<span class="token punctuation">.</span>rs<span class="token punctuation">.</span>core<span class="token punctuation">.</span>Response<span class="token punctuation">;</span>
 <span class="token keyword">public</span> <span class="token keyword">interface</span> <span class="token class-name">IResponsibleException</span> <span class="token punctuation">{</span>  
-  Response <span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-  String <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
-  String <span class="token function">getErrorDescription</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  Response <span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  String <span class="token function">getErrorMessage</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
+	  String <span class="token function">getErrorDescription</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
 <span class="token punctuation">}</span>
 </code></pre>
 <h4 id="responsibleexception">ResponsibleException</h4>
@@ -106,7 +106,7 @@ java -jar target/fileName.jar
 <pre class=" language-java"><code class="prism  language-java"><span class="token keyword">public</span> Response <span class="token function">getQueue</span><span class="token punctuation">(</span>   <span class="token annotation punctuation">@Valid</span><span class="token annotation punctuation">@NotNull</span><span class="token annotation punctuation">@QueryParam</span><span class="token punctuation">(</span><span class="token string">"queue_name"</span><span class="token punctuation">)</span> String queueName<span class="token punctuation">)</span><span class="token punctuation">{</span>  
   
   <span class="token keyword">try</span> <span class="token punctuation">{</span>  
-        Queue q <span class="token operator">=</span> QueueManager<span class="token punctuation">.</span><span class="token function">getQueue</span><span class="token punctuation">(</span>queueName<span class="token punctuation">)</span><span class="token punctuation">;</span> 
+		Queue q <span class="token operator">=</span> QueueManager<span class="token punctuation">.</span><span class="token function">getQueue</span><span class="token punctuation">(</span>queueName<span class="token punctuation">)</span><span class="token punctuation">;</span>
 		<span class="token keyword">return</span> Response<span class="token punctuation">.</span><span class="token function">ok</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">build</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
   <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">InvalidQueueException</span> e<span class="token punctuation">)</span> <span class="token punctuation">{</span>  
         <span class="token keyword">return</span> e<span class="token punctuation">.</span><span class="token function">getResponse</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  
